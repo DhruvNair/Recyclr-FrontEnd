@@ -57,7 +57,13 @@ module.exports = {
   "menu.addadmin": "Add an Admin",
   "menu.addpartner": "Add a Partner",
   "menu.adddevice": "Add a Device",
-  "menu.addPart": "Add a Part",
+  "menu.addpart": "Add a Part",
+  "menu.editdevice": "Edit Device",
+  "menu.editpart": "Edit Part",
+  "menu.admins": "Administrators",
+  "menu.partners": "Partners",
+  "menu.devices": "Devices",
+  "menu.parts": "Parts",
 
  /* 04.Error Page */
  "pages.error-title": "Ooops... looks like an error occurred!",
@@ -68,11 +74,18 @@ module.exports = {
  "console.addpartner": "Add a Partner",
  "console.adddevices": "Add a Device",
  "console.addparts": "Add a Part",
+ "console.editdevice": "Edit Device",
+ "console.editpart": "Edit Part",
+ "console.admins": "Administrators",
+ "console.partners": "Partners",
+ "console.devices": "Devices",
+ "console.parts": "Parts",
 
  "admin.addadmin":"Add an Admin",
  "admin.addpartner":"Add a Partner",
  "admin.adddevice":"Add a Device",
  "admin.addpart":"Add a Part",
+ "admin.savechanges":"Save Changes",
 
  "part.name":"Name",
  "part.type":"Type",

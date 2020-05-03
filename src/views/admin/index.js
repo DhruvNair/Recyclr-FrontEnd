@@ -6,6 +6,24 @@ import AppLayout from '../../layout/AppLayout';
 const Console = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './console')
 );
+const Admins = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './admins')
+);
+const Partners = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './partners')
+);
+const Devices = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './devices')
+);
+const Parts = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './parts')
+);
+const EditDevice = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './editdevice')
+);
+const EditPart = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './editpart')
+);
 const AddAdmin = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './addadmin')
 );
@@ -34,6 +52,30 @@ class App extends Component {
                 render={props => <Console {...props} />}
               />
               <Route
+                path={`${match.url}/admins`}
+                render={props => <Admins {...props} />}
+              />
+              <Route
+                path={`${match.url}/partners`}
+                render={props => <Partners {...props} />}
+              />
+              <Route
+                path={`${match.url}/parts`}
+                render={props => <Parts {...props} />}
+              />
+              <Route
+                path={`${match.url}/devices`}
+                render={props => <Devices {...props} />}
+              />
+              <Route
+                path={`${match.url}/editpart`}
+                render={props => <EditPart {...props} />}
+              />
+              <Route
+                path={`${match.url}/editdevice`}
+                render={props => <EditDevice {...props} />}
+              />
+              <Route
                 path={`${match.url}/addadmin`}
                 render={props => <AddAdmin {...props} />}
               />
@@ -42,7 +84,7 @@ class App extends Component {
                 render={props => <AddPartner {...props} />}
               />
               <Route
-                path={`${match.url}/addPart`}
+                path={`${match.url}/addpart`}
                 render={props => <AddPart {...props} />}
               />
               <Route

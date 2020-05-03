@@ -3,73 +3,93 @@ import IntlMessages from "../../helpers/IntlMessages";
 import { Colxx, Separator } from "../../components/common/CustomBootstrap";
 import Breadcrumb from "../../containers/navs/Breadcrumb";
 import { Formik, Form, Field } from "formik";
-import { Row, Label, FormGroup, Button, InputGroup, InputGroupAddon, CustomInput } from "reactstrap";
-import axios from 'axios';
+import { Row , Label, FormGroup, Button, InputGroup, InputGroupAddon, CustomInput } from "reactstrap";
 import { NotificationManager } from "../../components/common/react-notifications";
 import setAuthToken from "../../utils/setAuthToken";
+import axios from 'axios';
 
-export default class AddPart extends Component {
-    constructor(props) 
+export default class EditDevice extends Component {
+  constructor(props) 
     { 
       super(props); 
-      this.state = { image : null }; 
-    } 
-    addPart = (values) => {
-      if (values.name && values.partType && values.description && values.variant && values.price > 0)
-      {
-        if(this.state.image){values.photo = this.state.image};
-        console.log(values);
-        axios
-          .post("http://localhost:3000/shop/part", values)
-          .then(() => {
-            NotificationManager.success(
-            "Form submitted successfully!",
-            "Success!",
+      const id = new URLSearchParams(this.props.location.search).get("id");
+      axios.get("http://localhost:3000/shop/device/?_id="+id)
+      .then(res =>{
+        this.state = res.data[0];
+        document.getElementsByName('name')[0].value = this.state.name;
+        document.getElementsByName('description')[0].value = this.state.description;
+        document.getElementsByName('manufacturer')[0].value = this.state.manufacturer;
+        document.getElementsByName('parts')[0].value = this.state.parts;
+        if (this.state.photo){document.getElementsByName('photo')[0].innerHTML = "<img src='"+this.state.photo+"'alt=''></img>"}
+      }).catch(error => {
+        this.props.history.push("/")
+        NotificationManager.warning(
+          "Can't find the part you are looking for",
+          "There was an error",
+          3000,
+          null,
+          null,
+          ''
+        )
+      })
+    }
+  editDevice = (values) => {
+    if (values.name !== "" && values.description !== "" && values.manufacturer !== "" && values.parts !== "")
+    {
+      if(this.state.photo){values.photo = this.state.photo};
+      axios
+        .put("http://localhost:3000/shop/device/"+this.state._id, values)
+        .then(() => {
+          NotificationManager.success(
+          "Saved Changes successfully!",
+          "Success!",
+          3000,
+          null,
+          null,
+          ''
+        )
+        this.props.history.push('/admin')
+      })
+        .catch(error => 
+          NotificationManager.warning(
+            error,
+            "Changes not saved",
             3000,
             null,
             null,
             ''
           )
-          this.props.history.push('/admin')
-        })
-          .catch(error => 
-            NotificationManager.warning(
-              error,
-              "Form not submitted",
-              3000,
-              null,
-              null,
-              ''
-            )
-          )
-      }else{
-        NotificationManager.warning(
-          "Please fill all fields properly.",
-          "Form error",
-          3000,
-          null,
-          null,
-          ''
-        );
-      }
+        )
+    }else{
+      NotificationManager.warning(
+        "Please fill all fields properly.",
+        "Form error",
+        3000,
+        null,
+        null,
+        ''
+      );
     }
+  }
     render() {
+        const initialValues = '';
         return (
             <Fragment>
             <Row>
               <Colxx xxs="12">
-                <Breadcrumb heading="console.addparts" match={this.props.match} />
+                <Breadcrumb heading="console.editdevice" match={this.props.match} />
                 <Separator className="mb-5" />
               </Colxx>
             </Row>
             <Formik
-                onSubmit={values => this.addPart(values)}
+                onSubmit={values => this.editDevice(values)}
+                initialValues={initialValues}
               >
               {({ errors, touched }) => (
               <Form>
                 <FormGroup className="form-group has-float-label">
                   <Label>
-                    <IntlMessages id="part.name" />
+                    <IntlMessages id="device.name" />
                   </Label>
                   <Field
                     className="form-control"
@@ -78,28 +98,7 @@ export default class AddPart extends Component {
                 </FormGroup>
                 <FormGroup className="form-group has-float-label">
                   <Label>
-                    <IntlMessages id="part.type" />
-                  </Label>
-                  <Field
-                    className="form-control"
-                    name="partType"
-                    component="select"
-                    defaultValue = ''
-                  >
-                    <option value='' disabled>Select Type</option>
-                    <option value='display'>Display</option>
-                    <option value='battery'>Battery</option>
-                    <option value='motherboard'>Motherboard</option>
-                    <option value='camera'>Camera</option>
-                    <option value='speaker'>Speaker</option>
-                    <option value='fingerprint'>Fingerprint</option>
-                    <option value='vibrator'>Vibrator</option>
-                    <option value='charger'>Charger</option>
-                  </Field>
-                </FormGroup>
-                <FormGroup className="form-group has-float-label">
-                  <Label>
-                    <IntlMessages id="part.description" />
+                    <IntlMessages id="device.description" />
                   </Label>
                   <Field
                     component="textarea"
@@ -110,29 +109,28 @@ export default class AddPart extends Component {
                 </FormGroup>
                 <FormGroup className="form-group has-float-label">
                   <Label>
-                    <IntlMessages id="part.variant" />
+                    <IntlMessages id="device.manufacturer" />
                   </Label>
                   <Field
                     className="form-control"
-                    name="variant"
+                    name="manufacturer"
                   />
                 </FormGroup>
                 <FormGroup className="form-group has-float-label">
                   <Label>
-                    <IntlMessages id="part.price" />
+                    <IntlMessages id="device.parts" />
                   </Label>
                   <Field
                     className="form-control"
-                    type="number"
-                    name="price"
+                    type="text"
+                    name="parts"
                   />
                 </FormGroup>
                 <InputGroup className="mb-3">
-                  <InputGroupAddon addonType="prepend">Image</InputGroupAddon>
+                  <InputGroupAddon addonType="prepend" name="photo">Image</InputGroupAddon>
                   <CustomInput
                     type="file"
                     id="imageupload"
-                    name="photo"
                     accept="image/*"
                     onChange={(event) => {
                       let preimage = event.target.offsetParent.offsetParent.children[0]
@@ -141,8 +139,8 @@ export default class AddPart extends Component {
                         delete axios.defaults.headers.common["x-access-token"];
                         axios.post('https://api.imgur.com/3/image', event.target.files[0], {headers: {'Authorization': 'Client-ID 15930078733f17e'}, crossdomain: true})
                         .then((res) =>{
-                          this.setState({image:res.data.data.link});
-                          preimage.innerHTML = "<img src='"+this.state.image+"'alt=''></img>"
+                          this.setState({photo:res.data.data.link});
+                          preimage.innerHTML = "<img src='"+this.state.photo+"'alt=''></img>"
                         }).catch((err)=>{
                           console.log(err)
                         });
@@ -159,7 +157,7 @@ export default class AddPart extends Component {
                     size="lg"
                     type="submit"
                   >
-                    <IntlMessages id="admin.addpart" />
+                    <IntlMessages id="admin.savechanges" />
                   </Button>
                 </div>
               </Form>)}

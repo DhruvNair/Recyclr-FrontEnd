@@ -7,7 +7,6 @@ import {
   Redirect
 } from 'react-router-dom';
 import { IntlProvider } from 'react-intl';
-import './helpers/Firebase';
 import AppLocale from './lang';
 import NotificationContainer from './components/common/react-notifications/NotificationContainer';
 import { getDirection } from './helpers/Utils';

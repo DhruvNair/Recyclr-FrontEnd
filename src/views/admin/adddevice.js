@@ -51,7 +51,7 @@ export default class AddDevice extends Component {
             <Fragment>
             <Row>
               <Colxx xxs="12">
-                <Breadcrumb heading="console.addparts" match={this.props.match} />
+                <Breadcrumb heading="console.adddevices" match={this.props.match} />
                 <Separator className="mb-5" />
               </Colxx>
             </Row>
@@ -96,7 +96,7 @@ export default class AddDevice extends Component {
                   </Label>
                   <Field
                     className="form-control"
-                    type="number"
+                    type="text"
                     name="parts"
                   />
                 </FormGroup>

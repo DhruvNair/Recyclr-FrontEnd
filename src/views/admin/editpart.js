@@ -12,18 +12,38 @@ export default class AddPart extends Component {
     constructor(props) 
     { 
       super(props); 
-      this.state = { image : null }; 
-    } 
-    addPart = (values) => {
-      if (values.name && values.partType && values.description && values.variant && values.price > 0)
+      const id = new URLSearchParams(this.props.location.search).get("id");
+      axios.get("http://localhost:3000/shop/part/?_id="+id)
+      .then(res =>{
+        this.state = res.data[0];
+        document.getElementsByName('name')[0].value = this.state.name;
+        document.getElementsByName('partType')[0].value = this.state.partType;
+        document.getElementsByName('description')[0].value = this.state.description;
+        document.getElementsByName('price')[0].value = this.state.price;
+        document.getElementsByName('variant')[0].value = this.state.variant;
+        if (this.state.photo){document.getElementsByName('photo')[0].innerHTML = "<img src='"+this.state.photo+"'alt=''></img>"}
+      }).catch(error => {
+        this.props.history.push("/")
+        NotificationManager.warning(
+          "Can't find the part you are looking for",
+          "There was an error",
+          3000,
+          null,
+          null,
+          ''
+        )
+      })
+    }
+    editPart = (values) => {
+      if (!values.price){values.price = this.state.price}
+      if (values.name !== "" && values.partType !== "" && values.description !== "" && values.variant !== "" && values.price > 0)
       {
-        if(this.state.image){values.photo = this.state.image};
-        console.log(values);
+        if(this.state.photo){values.photo = this.state.photo};
         axios
-          .post("http://localhost:3000/shop/part", values)
+          .put("http://localhost:3000/shop/part/"+this.state._id, values)
           .then(() => {
             NotificationManager.success(
-            "Form submitted successfully!",
+            "Saved Changes successfully!",
             "Success!",
             3000,
             null,
@@ -35,7 +55,7 @@ export default class AddPart extends Component {
           .catch(error => 
             NotificationManager.warning(
               error,
-              "Form not submitted",
+              "Changes not saved",
               3000,
               null,
               null,
@@ -58,12 +78,12 @@ export default class AddPart extends Component {
             <Fragment>
             <Row>
               <Colxx xxs="12">
-                <Breadcrumb heading="console.addparts" match={this.props.match} />
+                <Breadcrumb heading="console.editpart" match={this.props.match} />
                 <Separator className="mb-5" />
               </Colxx>
             </Row>
             <Formik
-                onSubmit={values => this.addPart(values)}
+                onSubmit={values => this.editPart(values)}
               >
               {({ errors, touched }) => (
               <Form>
@@ -128,11 +148,10 @@ export default class AddPart extends Component {
                   />
                 </FormGroup>
                 <InputGroup className="mb-3">
-                  <InputGroupAddon addonType="prepend">Image</InputGroupAddon>
+                  <InputGroupAddon addonType="prepend" name="photo">Image</InputGroupAddon>
                   <CustomInput
                     type="file"
                     id="imageupload"
-                    name="photo"
                     accept="image/*"
                     onChange={(event) => {
                       let preimage = event.target.offsetParent.offsetParent.children[0]
@@ -141,8 +160,8 @@ export default class AddPart extends Component {
                         delete axios.defaults.headers.common["x-access-token"];
                         axios.post('https://api.imgur.com/3/image', event.target.files[0], {headers: {'Authorization': 'Client-ID 15930078733f17e'}, crossdomain: true})
                         .then((res) =>{
-                          this.setState({image:res.data.data.link});
-                          preimage.innerHTML = "<img src='"+this.state.image+"'alt=''></img>"
+                          this.setState({photo:res.data.data.link});
+                          preimage.innerHTML = "<img src='"+this.state.photo+"'alt=''></img>"
                         }).catch((err)=>{
                           console.log(err)
                         });
@@ -159,7 +178,7 @@ export default class AddPart extends Component {
                     size="lg"
                     type="submit"
                   >
-                    <IntlMessages id="admin.addpart" />
+                    <IntlMessages id="admin.savechanges" />
                   </Button>
                 </div>
               </Form>)}

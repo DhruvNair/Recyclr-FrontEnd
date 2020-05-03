@@ -1,6 +1,5 @@
 
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
-import { auth } from '../../helpers/Firebase';
 import {
     LOGIN_USER,
     REGISTER_USER,
@@ -9,7 +8,6 @@ import {
 } from '../actions';
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
-
 import {
     loginUserSuccess,
     loginUserError,
@@ -92,9 +90,9 @@ export function* watchForgotPassword() {
 }
 
 const forgotPasswordAsync = async (email) => {
-    return await auth.sendPasswordResetEmail(email)
-        .then(user => user)
-        .catch(error => error);
+    // return await auth.sendPasswordResetEmail(email)
+    //     .then(user => user)
+    //     .catch(error => error);
 }
 
 function* forgotPassword({ payload }) {
@@ -117,9 +115,9 @@ export function* watchResetPassword() {
 }
 
 const resetPasswordAsync = async (resetPasswordCode, newPassword) => {
-    return await auth.confirmPasswordReset(resetPasswordCode, newPassword)
-        .then(user => user)
-        .catch(error => error);
+    // return await auth.confirmPasswordReset(resetPasswordCode, newPassword)
+    //     .then(user => user)
+    //     .catch(error => error);
 }
 
 function* resetPassword({ payload }) {

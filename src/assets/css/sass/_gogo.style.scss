@@ -146,6 +146,37 @@ body {
     }
   }
 }
+.mt-n5{
+  margin-top: -3.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.input-group-prepend img{
+  height: 42px;
+}
+
+#details-list .details-list-item:hover{
+  cursor: pointer;
+}
+
+.delete-icon-container{
+  padding-left: 20px!important;
+}
+
+.swell{
+  background-color: red;
+  font-size: 15px;
+  width: 15px;
+  border-radius: 2px;
+  transition: all 0.25s;
+  color: white;
+}
+
+.swell:hover{
+  width: 18px;
+  margin-left: -2.5px;
+  font-size: 18px;
+}
 
 .rtl * {
   text-align: right;

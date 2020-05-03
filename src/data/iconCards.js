@@ -1,8 +1,8 @@
 const data = [
-    { title: 'console.addadmin', icon: "iconsminds-administrator", goto:"/addadmin"},
-    { title: 'console.addpartner', icon: "iconsminds-handshake", goto:"/addpartner"},
-    { title: 'console.addparts', icon: "iconsminds-gears", goto:"/addpart"},
-    { title: 'console.adddevices', icon: "iconsminds-computer", goto:"/adddevice" }
+    { title: 'console.admins', icon: "iconsminds-administrator", goto:"/admins"},
+    { title: 'console.partners', icon: "iconsminds-handshake", goto:"/partners"},
+    { title: 'console.parts', icon: "iconsminds-gears", goto:"/parts"},
+    { title: 'console.devices', icon: "iconsminds-computer", goto:"/devices" }
   ]
   export default data
   

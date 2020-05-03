@@ -29,15 +29,15 @@ export default class AddPartner extends Component {
           this.props.history.push('/admin')
         })
           .catch(error => 
-            console.log(error)
-            // NotificationManager.warning(
-            //   error,
-            //   "Form not submitted",
-            //   3000,
-            //   null,
-            //   null,
-            //   ''
-            // )
+            // console.log(error)
+            NotificationManager.warning(
+              error,
+              "Form not submitted",
+              3000,
+              null,
+              null,
+              ''
+            )
           )
       }else{
         NotificationManager.warning(
