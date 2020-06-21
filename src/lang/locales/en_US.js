@@ -10,9 +10,6 @@ Table of Contents
 
 
 module.exports = {
-  /* 01.General */
-  "general.copyright": "Gogo React © 2018 All Rights Reserved.",
-
   /* 02.User Login, Logout, Register */
   "user.login-title": "Login",
   "user.register": "Register",
@@ -97,4 +94,10 @@ module.exports = {
  "device.description":"Description",
  "device.manufacturer":"Manufacturer",
  "device.parts":"Parts",
+
+ "pages.buy": "Buy Parts",
+ "pages.sortBy": "Sort By : ",
+ "pages.display-options": "Options",
+
+ "buy.addToCart": "Add to Cart"
 };

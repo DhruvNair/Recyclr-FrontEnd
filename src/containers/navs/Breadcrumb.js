@@ -19,7 +19,7 @@ const BreadcrumbContainer = ({ heading, match }) => {
   return (
     <Fragment>
       {heading && <h1><IntlMessages id={heading}/></h1>}
-      <BreadcrumbItems match={match} />
+      {/* <BreadcrumbItems match={match} /> */}
     </Fragment>
   );
 };

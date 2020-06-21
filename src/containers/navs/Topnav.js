@@ -5,7 +5,7 @@ import {
   DropdownItem,
   DropdownToggle,
   DropdownMenu,
-  Input
+  // Input
 } from "reactstrap";
 
 import { NavLink } from "react-router-dom";
@@ -195,7 +195,7 @@ class TopNav extends Component {
 
   render() {
     const { containerClassnames, menuClickCount } = this.props;
-    const { messages } = this.props.intl;
+    // const { messages } = this.props.intl;
     return (
       <nav className="navbar fixed-top">
         <div className="d-flex align-items-center navbar-left">
@@ -216,7 +216,7 @@ class TopNav extends Component {
             <MobileMenuIcon />
           </NavLink>
 
-          <div className="search" data-search-path="/app/pages/search">
+          {/* <div className="search" data-search-path="/app/pages/search">
             <Input
               name="searchKeyword"
               id="searchKeyword"
@@ -231,7 +231,7 @@ class TopNav extends Component {
             >
               <i className="simple-icon-magnifier" />
             </span>
-          </div>
+          </div> */}
         </div>
         <a className="navbar-logo" href="/">
           <span className="logo d-none d-xs-block" />

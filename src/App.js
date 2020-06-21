@@ -27,6 +27,9 @@ const ViewAdmin = React.lazy(() =>
 const ViewUser = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/user')
 );
+const BuyView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/buy')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -140,7 +143,7 @@ class App extends Component {
                   />
                   <AdminRoute
                     path="/admin"
-                    component={ViewAdmin} />}
+                    component={ViewAdmin}
                   />
                   <Route
                     path="/user"
@@ -155,6 +158,11 @@ class App extends Component {
                     path="/"
                     exact
                     render={props => <ViewMain {...props} />}
+                  />
+                  <Route
+                    path="/buy"
+                    exact
+                    render={props => <BuyView {...props} />}
                   />
                   <Redirect to="/error" />
                 </Switch>
