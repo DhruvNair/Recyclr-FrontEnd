@@ -98,6 +98,14 @@ module.exports = {
  "pages.buy": "Buy Parts",
  "pages.sortBy": "Sort By : ",
  "pages.display-options": "Options",
+ "pages.actions": "Actions",
+ "pages.buythis": "Buy",
+ "pages.save": "Save For Later",
+ "pages.reviews-title": "Reviews",
+ "pages.questions-title": "FAQ",
+ "pages.like": "Like",
+ "pages.likes": "Likes",
+ "pages.similar-parts": "People who bought this also bought: ",
 
  "buy.addToCart": "Add to Cart"
 };

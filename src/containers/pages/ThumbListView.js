@@ -7,37 +7,37 @@ import { Colxx } from "../../components/common/CustomBootstrap";
 
 const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
   return (
-    <Colxx xxs="12" key={product.id} className="mb-3">
-      <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
+    <Colxx xxs="12" key={product._id} className="mb-3">
+      <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>
         <Card
-          onClick={event => onCheckItem(event, product.id)}
+          onClick={event => onCheckItem(event, product._id)}
           className={classnames("d-flex flex-row", {
             active: isSelect
           })}
         >
-          <NavLink to={`?p=${product.id}`} className="d-flex">
+          <NavLink to={`?p=${product._id}`} className="d-flex">
             <img
-              alt={product.title}
-              src={product.img}
-              className="list-thumbnail responsive border-0 card-img-left"
+              alt={product.name}
+              src={product.photo || 'https://www.oyorooms.com/officialoyoblog/wp-content/themes/inframe/assets/images/no-thumbnail-medium.png'}
+              className="list-thumbnail responsive border-0 card-img-left thumbImg"
             />
           </NavLink>
           <div className="pl-2 d-flex flex-grow-1 min-width-zero">
             <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-              <NavLink to={`?p=${product.id}`} className="w-40 w-sm-100">
+              <NavLink to={`?p=${product._id}`} className="w-40 w-sm-100">
                 <p className="list-item-heading mb-1 truncate">
-                  {product.title}
+                  {product.name}
                 </p>
               </NavLink>
               <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                {product.category}
+                {''}
               </p>
               <p className="mb-1 text-muted text-small w-15 w-sm-100">
-                {product.date}
+                {'₹' + product.price}
               </p>
-              <div className="w-15 w-sm-100">
-                <Badge color={product.statusColor} pill>
-                  {product.status}
+              <div className="w-15 w-sm-100 text-capitalize">
+                <Badge color={'secondary'} pill>
+                  {product.partType}
                 </Badge>
               </div>
             </div>
@@ -45,7 +45,7 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
               <CustomInput
                 className="item-check mb-0"
                 type="checkbox"
-                id={`check_${product.id}`}
+                id={`check_${product._id}`}
                 checked={isSelect}
                 onChange={()=>{}}
                 label=""

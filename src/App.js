@@ -159,10 +159,10 @@ class App extends Component {
                     exact
                     render={props => <ViewMain {...props} />}
                   />
-                  <Route
+                  <AuthRoute
                     path="/buy"
-                    exact
-                    render={props => <BuyView {...props} />}
+                    authUser={loginUser}
+                    component={BuyView}
                   />
                   <Redirect to="/error" />
                 </Switch>

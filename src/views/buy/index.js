@@ -6,6 +6,9 @@ import AppLayout from '../../layout/AppLayout';
 const Overview = React.lazy(() =>
   import(/* webpackChunkName: "viwes-blank-page" */ './overview')
 );
+const ProductDetails = React.lazy(() =>
+  import(/* webpackChunkName: "viwes-blank-page" */ './details')
+);
 
 class App extends Component {
   render() {
@@ -17,8 +20,13 @@ class App extends Component {
           <Suspense fallback={<div className="loading" />}>
             <Switch>
               <Route
+                exact
                 path={`${match.url}/`}
                 render={props => <Overview {...props} />}
+              />
+              <Route
+                path={`${match.url}/product`}
+                render={props => <ProductDetails {...props} />}
               />
               <Redirect to="/error" />
             </Switch>

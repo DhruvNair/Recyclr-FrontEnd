@@ -13,27 +13,28 @@ import { NavLink } from "react-router-dom";
 import classnames from "classnames";
 import { ContextMenuTrigger } from "react-contextmenu";
 import { Colxx } from "../../components/common/CustomBootstrap";
+import './common.css'
 
 const ImageListView = ({ product, isSelect, collect, onCheckItem }) => {
   return (
-    <Colxx sm="6" lg="4" xl="3" className="mb-3" key={product.id}>
-      <ContextMenuTrigger id="menu_id" data={product.id} collect={collect}>
+    <Colxx sm="6" lg="4" xl="3" className="mb-3" key={product._id}>
+      <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>
         <Card
-          onClick={event => onCheckItem(event, product.id)}
+          onClick={event => onCheckItem(event, product._id)}
           className={classnames({
             active: isSelect
           })}
         >
           <div className="position-relative">
-            <NavLink to={`?p=${product.id}`} className="w-40 w-sm-100">
-              <CardImg top alt={product.title} src={product.img} />
+            <NavLink to={`/buy/product?id=${product._id}`} className="w-40 w-sm-100">
+              <CardImg className='cardImg' height='300px' top alt={product.name} src={product.photo || 'https://www.oyorooms.com/officialoyoblog/wp-content/themes/inframe/assets/images/no-thumbnail-medium.png' } />
             </NavLink>
             <Badge
-              color={product.statusColor}
+              color={'secondary'}
               pill
-              className="position-absolute badge-top-left"
+              className="position-absolute badge-top-left text-capitalize"
             >
-              {product.status}
+              {product.partType}
             </Badge>
           </div>
           <CardBody>
@@ -42,15 +43,15 @@ const ImageListView = ({ product, isSelect, collect, onCheckItem }) => {
                 <CustomInput
                   className="item-check mb-0"
                   type="checkbox"
-                  id={`check_${product.id}`}
+                  id={`check_${product._id}`}
                   checked={isSelect}
                   onChange={() => {}}
                   label=""/>
               </Colxx>
-              <Colxx xxs="10" className="mb-3">
-                <CardSubtitle>{product.title}</CardSubtitle>
+              <Colxx xxs="10">
+                <CardSubtitle>{product.name}</CardSubtitle>
                 <CardText className="text-muted text-small mb-0 font-weight-light">
-                  {product.date}
+                  {'₹' + product.price}
                 </CardText>
               </Colxx>
             </Row>

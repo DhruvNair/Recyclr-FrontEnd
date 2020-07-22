@@ -3,7 +3,7 @@ import {
   Row,
   Button,
   ButtonDropdown,
-  UncontrolledDropdown,
+  // UncontrolledDropdown,
   DropdownMenu,
   DropdownItem,
   DropdownToggle,
@@ -41,23 +41,23 @@ class ListPageHeading extends Component {
   }
 
   render() {
-    const { messages } = this.props.intl;
+    // const { messages } = this.props.intl;
     const {
       displayMode,
       changeDisplayMode,
       handleChangeSelectAll,
-      changeOrderBy,
+      // changeOrderBy,
       // changePageSize,
       // selectedPageSize,
       // totalItemCount,
-      selectedOrderOption,
+      // selectedOrderOption,
       // match,
       // startIndex,
       // endIndex,
       selectedItemsLength,
       itemsLength,
-      onSearchKey,
-      orderOptions,
+      // onSearchKey,
+      // orderOptions,
       // pageSizes,
       // toggleModal,
       heading
@@ -160,7 +160,7 @@ class ListPageHeading extends Component {
               </span>
 
               <div className="d-block d-md-inline-block pt-1">
-                <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
+                {/* <UncontrolledDropdown className="mr-1 float-md-left btn-group mb-1">
                   <DropdownToggle caret color="outline-dark" size="xs">
                     <IntlMessages id="pages.sortBy" />
                     {selectedOrderOption.label}
@@ -177,8 +177,8 @@ class ListPageHeading extends Component {
                       );
                     })}
                   </DropdownMenu>
-                </UncontrolledDropdown>
-                <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
+                </UncontrolledDropdown> */}
+                {/* <div className="search-sm d-inline-block float-md-left mr-1 mb-1 align-top">
                   <input
                     type="text"
                     name="keyword"
@@ -186,7 +186,7 @@ class ListPageHeading extends Component {
                     placeholder={messages["menu.search"]}
                     onKeyPress={e => onSearchKey(e)}
                   />
-                </div>
+                </div> */}
               </div>
               {/* <div className="float-md-right pt-1">
                 <span className="text-muted text-small mr-1">{`${startIndex}-${endIndex} of ${totalItemCount} `}</span>

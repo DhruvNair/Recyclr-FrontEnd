@@ -1,0 +1,11 @@
+.cardImg{
+    object-fit: cover;
+}
+.thumbImg{
+    width: 120px!important;
+}
+.hoverable img{
+    width: 160px;
+    height: 100px;
+    object-fit: cover;
+}

@@ -1,6 +1,6 @@
 import React, { Component }  from "react";
-import { NavLink } from "react-router-dom";
 import { injectIntl } from "react-intl";
+import './common.css';
 
 class CommentWithLikes extends Component {
 
@@ -20,29 +20,29 @@ class CommentWithLikes extends Component {
     render() {
         return (
             <div className={"d-flex flex-row mb-3 border-bottom justify-content-between " + this.props.className}>
-                <NavLink to="#">
+                <div className="hoverable">
                     <img src={this.props.data.thumb} alt={this.props.data.name}
                         className="img-thumbnail border-0 rounded-circle list-thumbnail align-self-center xsmall" />
-                </NavLink>
+                </div>
                 <div className="pl-3 flex-grow-1">
-                    <NavLink to="#">
+                    <div className="hoverable">
                         <p className="font-weight-medium mb-0">{this.props.data.name}</p>
                         <p className="text-muted mb-0 text-small">{this.props.data.data}</p>
-                    </NavLink>
+                    </div>
                     <p className="mt-3">
                         {this.props.data.detail}
                     </p>
                 </div>
                 <div className="comment-likes">
                     <span className="post-icon">
-                        <NavLink to="#">
+                        <div className="hoverable">
                             <span>
                                 {
                                     this.props.data.likes > 0 ? this.props.data.likes + " " + this.getLikeLabel(this.props.data.likes) : ""
                                 }
                             </span>
                             <i className="simple-icon-heart ml-2"></i>
-                        </NavLink>
+                        </div>
                     </span>
                 </div>
             </div>

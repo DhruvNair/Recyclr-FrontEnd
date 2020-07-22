@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Row } from "reactstrap";
 import axios from "axios";
 
-import { servicePath } from "../../constants/defaultValues";
+// import { servicePath } from "../../constants/defaultValues";
 
 import DataListView from "../../containers/pages/DataListView";
 import Pagination from "../../containers/pages/Pagination";
@@ -16,7 +16,7 @@ function collect(props) {
   console.log(console.log(props));
   return { data: props.data };
 }
-const apiUrl = servicePath + "/cakes/paging";
+// const apiUrl = servicePath + "/cakes/paging";
 
 class ThumbListPages extends Component {
   constructor(props) {
@@ -153,7 +153,7 @@ class ThumbListPages extends Component {
       items = items.slice(Math.min(start, end), Math.max(start, end) + 1);
       selectedItems.push(
         ...items.map(item => {
-          return item.id;
+          return item._id;
         })
       );
       selectedItems = Array.from(new Set(selectedItems));
@@ -181,7 +181,7 @@ class ThumbListPages extends Component {
       }
     } else {
       this.setState({
-        selectedItems: this.state.items.map(x => x.id)
+        selectedItems: this.state.items.map(x => x._id)
       });
     }
     document.activeElement.blur();
@@ -189,35 +189,44 @@ class ThumbListPages extends Component {
   };
 
   dataListRender() {
-    const {
-      selectedPageSize,
-      currentPage,
-      selectedOrderOption,
-      search
-    } = this.state;
-    // axios.get(`/shop/part/`)
-    //     .then(res => {
-    //         const parts = res.data;
-    //         this.setState({ parts });
-    //     })
-    axios
-      .get(
-        `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${
-          selectedOrderOption.column
-        }&search=${search}`
-      )
-      .then(res => {
-        return res.data;
-      })
-      .then(data => {
-        this.setState({
-          totalPage: data.totalPage,
-          items: data.data,
-          selectedItems: [],
-          totalItemCount: data.totalItem,
-          isLoading: true
+    // const {
+    //   selectedPageSize,
+    //   currentPage,
+    //   selectedOrderOption,
+    //   search
+    // } = this.state;
+    axios.get(`/shop/part/`)
+        .then(res => {
+          return res.data;
+        })
+        .then(parts => {
+          console.log(parts);
+          this.setState({
+            totalPage: 1,
+            items: parts,
+            selectedItems: [],
+            totalItemCount: parts.length,
+            isLoading: true
+          });
         });
-      });
+    // axios
+    //   .get(
+    //     `${apiUrl}?pageSize=${selectedPageSize}&currentPage=${currentPage}&orderBy=${
+    //       selectedOrderOption.column
+    //     }&search=${search}`
+    //   )
+    //   .then(res => {
+    //     return res.data;
+    //   })
+    //   .then(data => {
+    //     this.setState({
+    //       totalPage: data.totalPage,
+    //       items: data.data,
+    //       selectedItems: [],
+    //       totalItemCount: data.totalItem,
+    //       isLoading: true
+    //     });
+    //   });
   }
 
   onContextMenuClick = (e, data, target) => {
@@ -292,9 +301,9 @@ class ThumbListPages extends Component {
               if (this.state.displayMode === "imagelist") {
                 return (
                   <ImageListView
-                    key={product.id}
+                    key={product._id}
                     product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    isSelect={this.state.selectedItems.includes(product._id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -302,9 +311,9 @@ class ThumbListPages extends Component {
               } else if (this.state.displayMode === "thumblist") {
                 return (
                   <ThumbListView
-                    key={product.id}
+                    key={product._id}
                     product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    isSelect={this.state.selectedItems.includes(product._id)}
                     collect={collect}
                     onCheckItem={this.onCheckItem}
                   />
@@ -312,9 +321,9 @@ class ThumbListPages extends Component {
               } else {
                 return (
                   <DataListView
-                    key={product.id}
+                    key={product._id}
                     product={product}
-                    isSelect={this.state.selectedItems.includes(product.id)}
+                    isSelect={this.state.selectedItems.includes(product._id)}
                     onCheckItem={this.onCheckItem}
                     collect={collect}
                   />
