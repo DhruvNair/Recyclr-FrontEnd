@@ -1,0 +1,8 @@
+.cartButton{
+    font-size: 25px;
+    color: #757575;
+}
+.cartButton:hover{
+    color: #86367e;
+    cursor: pointer;
+}

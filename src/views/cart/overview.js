@@ -4,13 +4,11 @@ import axios from "axios";
 
 // import { servicePath } from "../../constants/defaultValues";
 
-import DataListView from "../../containers/pages/DataListView";
+import CartListView from "../../containers/pages/CartListView";
 import Pagination from "../../containers/pages/Pagination";
-import ListPageHeading from "../../containers/pages/ListPageHeading";
-import ImageListView from "../../containers/pages/ImageListView";
-import ThumbListView from "../../containers/pages/ThumbListView";
+import CartPageHeading from "../../containers/pages/CartPageHeading";
 import AddNewModal from "../../containers/pages/AddNewModal";
-
+import { NotificationManager } from "../../components/common/react-notifications";
 function collect(props) {
   console.log(console.log(props));
   return { data: props.data };
@@ -21,10 +19,12 @@ class ThumbListPages extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require('mousetrap');
+    this.handleClearCart = this.handleClearCart.bind(this);
+    this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
 
 
     this.state = {
-      displayMode: "imagelist",
+      displayMode: "datalist",
       pageSizes: [8, 12, 24],
       selectedPageSize: 8,
       orderOptions: [
@@ -171,6 +171,60 @@ class ThumbListPages extends Component {
     }
     return -1;
   }
+  handleClearCart(){
+    axios
+      .delete("/shop/cart")
+      .then(() => {
+        NotificationManager.success(
+        "Cart Cleared Successfully!",
+        "Success!",
+        3000,
+        null,
+        null,
+        ''
+      )
+      this.setState({
+        items:[],
+        totalItemCount:0
+      })
+    }).catch(error => 
+      NotificationManager.warning(
+        error,
+        "Cart not Cleared",
+        3000,
+        null,
+        null,
+        ''
+      )
+    )
+  }
+  handlePlaceOrder(){
+    axios
+      .post("/payment/order")
+      .then((res) => {
+        console.log(res);
+        NotificationManager.success(
+        "Redirecting to the payment gateway",
+        "Success!",
+        3000,
+        null,
+        null,
+        ''
+      )
+      setTimeout(() => {
+        window.location.href=res.data.payment_request.longurl;
+      }, 1500)
+    }).catch(error => 
+      NotificationManager.error(
+        error.response.data.message,
+        "Could not place order",
+        3000,
+        null,
+        null,
+        ''
+      )
+    )
+  }
   handleChangeSelectAll = isToggle => {
     if (this.state.selectedItems.length >= this.state.items.length) {
       if (isToggle) {
@@ -194,16 +248,18 @@ class ThumbListPages extends Component {
     //   selectedOrderOption,
     //   search
     // } = this.state;
-    axios.get(`/shop/part/`)
+    axios.get(`/shop/cart/`)
         .then(res => {
           return res.data;
         })
-        .then(parts => {
+        .then(res => {
+          console.log(res)
           this.setState({
             totalPage: 1,
-            items: parts,
+            items: res.cart,
             selectedItems: [],
-            totalItemCount: parts.length,
+            totalItemCount: res.cart.length,
+            totalCost: res.cartValue,
             isLoading: true
           });
         });
@@ -269,11 +325,13 @@ class ThumbListPages extends Component {
     ) : (
       <Fragment>
         <div className="disable-text-selection">
-          <ListPageHeading
-            heading="pages.buy"
+          <CartPageHeading
+            heading="pages.cart"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
+            handleClearCart={this.handleClearCart}
+            handlePlaceOrder={this.handlePlaceOrder}
             changeOrderBy={this.changeOrderBy}
             changePageSize={this.changePageSize}
             selectedPageSize={selectedPageSize}
@@ -295,39 +353,19 @@ class ThumbListPages extends Component {
             categories={categories}
           />
           <Row>
-            {this.state.items.map(product => {
-              if (this.state.displayMode === "imagelist") {
-                return (
-                  <ImageListView
-                    key={product._id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product._id)}
-                    collect={collect}
-                    onCheckItem={this.onCheckItem}
-                  />
-                );
-              } else if (this.state.displayMode === "thumblist") {
-                return (
-                  <ThumbListView
-                    key={product._id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product._id)}
-                    collect={collect}
-                    onCheckItem={this.onCheckItem}
-                  />
-                );
-              } else {
-                return (
-                  <DataListView
-                    key={product._id}
-                    product={product}
-                    isSelect={this.state.selectedItems.includes(product._id)}
-                    onCheckItem={this.onCheckItem}
-                    collect={collect}
-                  />
-                );
-              }
-            })}{" "}
+            {this.state.totalItemCount > 0 ? this.state.items.map(product => {
+              return (
+                <CartListView
+                  key={product._id}
+                  product={product.part}
+                  isSelect={this.state.selectedItems.includes(product._id)}
+                  onCheckItem={this.onCheckItem}
+                  collect={collect}
+                />
+              );
+            }) : <div className="no-items ml-5">
+              Your cart seems to be empty! 
+            </div> }{" "}
             <Pagination
               currentPage={this.state.currentPage}
               totalPage={this.state.totalPage}

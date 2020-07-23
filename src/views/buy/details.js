@@ -22,6 +22,7 @@ import { detailsQuestionsData } from "../../data/questions";
 import CommentWithLikes from "../../components/pages/CommentWithLikes";
 import { commentWithLikesData } from "../../data/comments";
 import QuestionAnswer from "../../components/pages/QuestionAnswer";
+import { NotificationManager } from "../../components/common/react-notifications";
 import GalleryDetail from "../../containers/pages/GalleryDetail";
 import axios from 'axios';
 import './common.css';
@@ -69,7 +70,30 @@ class ProductDetails extends Component {
           })
         });
   }
-
+  addToCart(id) {
+    axios
+      .post("http://localhost:3000/shop/cart", {partId: id})
+      .then(() => {
+        NotificationManager.success(
+          "Added to cart!",
+          "Success!",
+          3000,
+          null,
+          null,
+          ''
+        )
+        this.props.history.push('/cart')
+      }).catch(error => 
+        NotificationManager.warning(
+          error.response.data.message,
+          "Something's not right",
+          3000,
+          null,
+          null,
+          ''
+        )
+      )
+  }
   render() {
     const { messages } = this.props.intl;
     if (this.state.id === '' || this.state.id === null) {
@@ -183,7 +207,7 @@ class ProductDetails extends Component {
                     </p>
                     <p className="text-muted text-small mb-2">{messages["forms.tags"]}</p>
                     <div className="actionButtons">
-                      <Button color="secondary">Add to cart</Button>
+                      <Button color="secondary" onClick={()=> {this.addToCart(this.state.id)}}>Add to cart</Button>
                       <Button color="outline-secondary">Add to wishlist</Button>
                     </div>
                   </CardBody>

@@ -30,6 +30,9 @@ const ViewUser = React.lazy(() =>
 const BuyView = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/buy')
 );
+const CartView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/cart')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -163,6 +166,11 @@ class App extends Component {
                     path="/buy"
                     authUser={loginUser}
                     component={BuyView}
+                  />
+                  <AuthRoute
+                    path="/cart"
+                    authUser={loginUser}
+                    component={CartView}
                   />
                   <Redirect to="/error" />
                 </Switch>

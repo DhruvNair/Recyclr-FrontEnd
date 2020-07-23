@@ -27,6 +27,7 @@ import { MobileMenuIcon, MenuIcon } from "../../components/svg";
 
 import { getDirection, setDirection } from "../../helpers/Utils";
 import store from "../../store";
+import './common.css';
 
 class TopNav extends Component {
   constructor(props) {
@@ -238,7 +239,13 @@ class TopNav extends Component {
           <span className="logo-mobile d-block d-xs-none" />
         </a>
         <div className="navbar-right">
-
+          <div className="header-icons d-inline-block align-middle">
+            <NavLink to="/cart">
+              <div className="cartButton">
+                <i className="iconsminds-shopping-cart"></i>
+              </div>
+            </NavLink>
+          </div>
           <div className="header-icons d-inline-block align-middle">
             <button
               className="header-icon btn btn-empty d-none d-sm-inline-block"
