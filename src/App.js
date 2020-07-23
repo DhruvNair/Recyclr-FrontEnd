@@ -30,6 +30,9 @@ const ViewUser = React.lazy(() =>
 const BuyView = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/buy')
 );
+const SellView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/sell')
+);
 const CartView = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/cart')
 );
@@ -166,6 +169,11 @@ class App extends Component {
                     path="/buy"
                     authUser={loginUser}
                     component={BuyView}
+                  />
+                  <AuthRoute
+                    path="/sell"
+                    authUser={loginUser}
+                    component={SellView}
                   />
                   <AuthRoute
                     path="/cart"

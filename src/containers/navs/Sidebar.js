@@ -340,7 +340,7 @@ class Sidebar extends Component {
               <Nav vertical className="list-unstyled">
                 {menuItems &&
                   menuItems.map(item => {
-                    if (!item.adminRequired || this.state.user.userType === "admin"){
+                    if (!((item.adminRequired && this.state.user.userType !== "admin") || (item.partnerRequired && this.state.user.userType !== "partner"))){
                     return (
                       <NavItem
                         key={item.id}

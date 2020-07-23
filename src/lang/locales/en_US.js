@@ -107,6 +107,7 @@ module.exports = {
  "pages.likes": "Likes",
  "pages.similar-parts": "People who bought this also bought: ",
  "pages.cart": "Cart",
+ "pages.selectDevice": "Select device to sell",
 
  "buy.addToCart": "Add to Cart"
 };

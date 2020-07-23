@@ -59,13 +59,23 @@ const data = [
     icon: "iconsminds-add-cart",
     label: "menu.buy",
     adminRequired:false,
+    partnerRequired: false,
     to: "/buy",
+  },
+  {
+    id: "sellDevice",
+    icon: "iconsminds-financial",
+    label: "menu.sell",
+    adminRequired:false,
+    partnerRequired: false,
+    to: "/sell",
   },
   {
     id: "admin",
     icon: "iconsminds-wrench",
     label: "menu.admin",
     adminRequired:true,
+    partnerRequired: false,
     to: "/admin",
   },
 ];

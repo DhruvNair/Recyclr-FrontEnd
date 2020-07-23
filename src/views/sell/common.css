@@ -1,0 +1,53 @@
+.imageCard{
+    display: flex;
+    justify-content: center;
+}
+.imageCard img{
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+}
+.card-header-tabs{
+    display: flex;
+}
+.card-header-tabs .nav-link{
+    padding-left: 20px;
+    position: relative;
+}
+.card-header-tabs .nav-link:hover{
+    cursor: pointer;
+}
+.card-header-tabs .nav-link.active::before{
+    content: ' ';
+    background: #86367e;
+    border-radius: 10px;
+    position: absolute;
+    width: calc(100% - 1rem);
+    height: 5px;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+}
+.hoverable:hover{
+    cursor: pointer;
+    color: #86367e;
+}
+.description{
+    min-height: 300px;
+}
+.inline{
+    display: inline;
+}
+.heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    h1{
+        margin-bottom: 0;
+    }
+}
+.actionButtons{
+    display: flex;
+    justify-content: space-around;
+}
