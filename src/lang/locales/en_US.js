@@ -61,6 +61,8 @@ module.exports = {
   "menu.partners": "Partners",
   "menu.devices": "Devices",
   "menu.parts": "Parts",
+  "menu.myorders": "My Orders",
+  "menu.availablePickups": "Available Pickups",
 
  /* 04.Error Page */
  "pages.error-title": "Ooops... looks like an error occurred!",

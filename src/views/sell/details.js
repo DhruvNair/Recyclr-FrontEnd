@@ -177,7 +177,7 @@ class ProductDetails extends Component {
                       <Button color="secondary" onClick={()=> {this.sell()}}>Place Sell Request</Button>
                     </div>
                     <div className="estimate mt-5 text-center">
-                      <h3>Estimate for a device in this conditon : {this.state.estimate}</h3>
+                    <h3>Estimate for a device in this conditon : {this.state.estimate !== 'Not calculated' ? '₹' : ''}{this.state.estimate}</h3>
                     </div>
                   </CardBody>
                 </Card>

@@ -36,6 +36,9 @@ const SellView = React.lazy(() =>
 const CartView = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/cart')
 );
+const PickupsView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/pickups')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -97,6 +100,42 @@ const AdminRoute = ({ component: Component, authUser, ...rest }) => {
       {...rest}
       render={props =>
         isAdmin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/user/login',
+              state: { from: props.location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+const PartnerRoute = ({ component: Component, authUser, ...rest }) => {
+  var isPartner = false;
+  const token = localStorage.getItem('jwtToken')
+  if (token) {
+    const token = localStorage.jwtToken;
+    setAuthToken(token);
+    const decoded = jwt_decode(token);
+    const currentTime = Date.now() / 1000; // to get in milliseconds
+    if (decoded.exp < currentTime) {
+      store.dispatch(logoutUser());
+    }
+    else{
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (user.userType === "partner"){
+        isPartner = true;
+      }
+    }
+  }
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        isPartner ? (
           <Component {...props} />
         ) : (
           <Redirect
@@ -179,6 +218,11 @@ class App extends Component {
                     path="/cart"
                     authUser={loginUser}
                     component={CartView}
+                  />
+                  <PartnerRoute
+                    path="/pickups"
+                    authUser={loginUser}
+                    component={PickupsView}
                   />
                   <Redirect to="/error" />
                 </Switch>

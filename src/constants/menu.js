@@ -70,6 +70,22 @@ const data = [
     partnerRequired: false,
     to: "/sell",
   },
+  // {
+  //   id: "myOrders",
+  //   icon: "iconsminds-billing",
+  //   label: "menu.myorders",
+  //   adminRequired:false,
+  //   partnerRequired: false,
+  //   to: "/sell",
+  // },
+  {
+    id: "availablePickups",
+    icon: "iconsminds-handshake",
+    label: "menu.availablePickups",
+    adminRequired:false,
+    partnerRequired: true,
+    to: "/pickups",
+  },
   {
     id: "admin",
     icon: "iconsminds-wrench",
