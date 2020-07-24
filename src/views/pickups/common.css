@@ -43,9 +43,9 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    h1{
-        margin-bottom: 0;
-    }
+}
+.card-title{
+    font-size: 25px;
 }
 .actionButtons{
     display: flex;

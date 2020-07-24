@@ -18,9 +18,6 @@ import {logoutUser} from "./redux/auth/actions";
 const ViewMain = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views')
 );
-const ViewApp = React.lazy(() =>
-  import(/* webpackChunkName: "views-app" */ './views/app')
-);
 const ViewAdmin = React.lazy(() =>
   import(/* webpackChunkName: "views-app" */ './views/admin')
 );
@@ -190,11 +187,6 @@ class App extends Component {
             <Suspense fallback={<div className="loading" />}>
               <Router>
                 <Switch>
-                  <AuthRoute
-                    path="/app"
-                    authUser={loginUser}
-                    component={ViewApp}
-                  />
                   <AdminRoute
                     path="/admin"
                     component={ViewAdmin}

@@ -285,7 +285,7 @@ class ThumbListPages extends Component {
           />
           <Row>
             {this.state.totalItemCount > 0 ? this.state.items.map(pickup => {
-              if((!pickup.shop || pickup.shop === this.myId()) && pickup.seller._id !== this.myId()){
+              if((!pickup.shop || pickup.shop._id === this.myId()) && pickup.seller._id !== this.myId()){
                 return (
                   <PickupsListView
                     key={pickup._id}

@@ -43,9 +43,9 @@
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.5rem;
-    h1{
-        margin-bottom: 0;
-    }
+}
+.heading h1{
+    margin-bottom: 0;
 }
 .actionButtons{
     display: flex;
@@ -56,5 +56,8 @@
     display: flex;
     justify-content: flex-end;
     padding-right: 50px;
+    font-size: 25px;
+}
+.card-title{
     font-size: 25px;
 }

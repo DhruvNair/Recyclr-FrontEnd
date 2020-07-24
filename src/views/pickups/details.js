@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import {
   Row,
   Card,
-  // CardTitle,
+  CardTitle,
   CardBody,
   // TabContent,
   // TabPane,
@@ -204,6 +204,9 @@ class PickupDetails extends Component {
       else {return 'secondary'}
     }
   }
+  showLocation(){
+    window.open('http://www.google.com/maps/place/'+this.state.pickup.seller.location.lat+','+this.state.pickup.seller.location.lng, '_blank')
+  }
   render() {
     const { messages } = this.props.intl;
     if (this.state.id === '' || this.state.id === null) {
@@ -231,11 +234,48 @@ class PickupDetails extends Component {
                   </CardBody>
                 </Card>
               </Colxx>
-
-              <Colxx xxs="12" xl="8" className="col-right">
+              <Colxx xxs="12" xl="4" className="col-right">
                 <Card className="mb-2">
                   <CardBody>
-                    <h1>What works?</h1>
+                    <CardTitle>Details</CardTitle>
+                    <div className="container">
+                      <h3>User Details</h3>
+                      <div className="container mb-5">
+                        <div className="name">Name: {this.state.pickup.seller.name || 'Not Provided'}</div>
+                        <div className="email">Email: {this.state.pickup.seller.email || 'Not Provided'}</div>
+                        <div className="address">Address: {this.state.pickup.seller.address || 'Not Provided'}</div>
+                        <div className="phone">Phone: {this.state.pickup.seller.phone || 'Not Provided'}</div>
+                      </div>
+                      {
+                        (this.state.pickup.shop) ? (
+                          <Fragment>
+                            <h3>Partner Details</h3>
+                            <div className="container mb-5">
+                              <div className="name">Name: {this.state.pickup.shop.name || 'Not Provided'}</div>
+                              <div className="email">Email: {this.state.pickup.shop.email || 'Not Provided'}</div>
+                              <div className="address">Address: {this.state.pickup.shop.address || 'Not Provided'}</div>
+                              <div className="phone">Phone: {this.state.pickup.shop.phone || 'Not Provided'}</div>
+                            </div>
+                          </Fragment>
+                        ) : (' ')
+                      }
+                      {
+                        (this.state.pickup.seller.location) ? (
+                          <Fragment>
+                            <div className="d-flex justify-content-center">
+                              <Button color="primary" onClick={()=> {this.showLocation()}}>Find on maps</Button>
+                            </div>
+                          </Fragment>
+                        ) : (' ') 
+                      }
+                    </div>
+                  </CardBody>
+                </Card>
+              </Colxx>
+              <Colxx xxs="12" xl="4">
+                <Card className="mb-2">
+                  <CardBody>
+                    <CardTitle>What works?</CardTitle>
                     <div className="container">
                       {
                         this.state.parts.map((part, index) => {
@@ -265,7 +305,7 @@ class PickupDetails extends Component {
                         </div>
                       ) : ('')
                     ) : (
-                      (this.state.pickup.shop === this.myId() && this.state.pickup.status === 'processing') ? (
+                      (this.state.pickup.shop._id === this.myId() && this.state.pickup.status === 'processing') ? (
                         <div className="actionButtons">
                           <Button color="danger" onClick={()=> {this.reject()}}>Reject</Button>
                           <Button color="outline-secondary" onClick={()=> {this.unclaim()}}>UnClaim</Button>

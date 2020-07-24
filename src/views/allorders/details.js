@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { Row } from "reactstrap";
-import { Separator} from "../../components/common/CustomBootstrap";
+import { Row, Card, CardBody, CardTitle, Button } from "reactstrap";
+import { Separator, Colxx } from "../../components/common/CustomBootstrap";
 import axios from "axios";
 
 // import { servicePath } from "../../constants/defaultValues";
 
 import CartListView from "../../containers/pages/CartListView";
-import Pagination from "../../containers/pages/Pagination";
 import PickupsPageHeading from "../../containers/pages/PickupsPageHeading";
 import AddNewModal from "../../containers/pages/AddNewModal";
 import { NotificationManager } from "../../components/common/react-notifications";
@@ -21,8 +20,6 @@ class ThumbListPages extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require('mousetrap');
-    this.handleClearCart = this.handleClearCart.bind(this);
-    this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
 
 
     this.state = {
@@ -174,60 +171,6 @@ class ThumbListPages extends Component {
     }
     return -1;
   }
-  handleClearCart(){
-    axios
-      .delete("/shop/cart")
-      .then(() => {
-        NotificationManager.success(
-        "Cart Cleared Successfully!",
-        "Success!",
-        3000,
-        null,
-        null,
-        ''
-      )
-      this.setState({
-        items:[],
-        totalItemCount:0
-      })
-    }).catch(error => 
-      NotificationManager.warning(
-        error,
-        "Cart not Cleared",
-        3000,
-        null,
-        null,
-        ''
-      )
-    )
-  }
-  handlePlaceOrder(){
-    axios
-      .post("/payment/order")
-      .then((res) => {
-        console.log(res);
-        NotificationManager.success(
-        "Redirecting to the payment gateway",
-        "Success!",
-        3000,
-        null,
-        null,
-        ''
-      )
-      setTimeout(() => {
-        window.location.href=res.data.payment_request.longurl;
-      }, 1500)
-    }).catch(error => 
-      NotificationManager.error(
-        error.response.data.message,
-        "Could not place order",
-        3000,
-        null,
-        null,
-        ''
-      )
-    )
-  }
   handleChangeSelectAll = isToggle => {
     if (this.state.selectedItems.length >= this.state.items.length) {
       if (isToggle) {
@@ -256,11 +199,12 @@ class ThumbListPages extends Component {
           return res.data[0];
         })
         .then(res => {
-          console.log(res)
+          console.log(res.buyer)
           this.setState({
             totalPage: 1,
             items: res.items,
             selectedItems: [],
+            buyer: res.buyer,
             totalItemCount: res.items.length,
             totalCost: res.amount,
             isLoading: true
@@ -304,6 +248,9 @@ class ThumbListPages extends Component {
 
     return true;
   };
+  showLocation(){
+    window.open('http://www.google.com/maps/place/'+this.state.buyer.location.lat+','+this.state.buyer.location.lng, '_blank')
+  }
 
   render() {
     const {
@@ -322,7 +269,6 @@ class ThumbListPages extends Component {
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
     const endIndex = currentPage * selectedPageSize;
-
     return !this.state.isLoading ? (
       <div className="loading" />
     ) : (
@@ -356,24 +302,43 @@ class ThumbListPages extends Component {
             categories={categories}
           />
           <Row>
-            {this.state.totalItemCount > 0 ? this.state.items.map(product => {
-              return (
-                <CartListView
-                  key={product._id}
-                  product={product}
-                  isSelect={this.state.selectedItems.includes(product._id)}
-                  onCheckItem={this.onCheckItem}
-                  collect={collect}
-                />
-              );
-            }) : <div className="no-items ml-5">
-              Your cart seems to be empty! 
-            </div> }{" "}
-            <Pagination
-              currentPage={this.state.currentPage}
-              totalPage={this.state.totalPage}
-              onChangePage={i => this.onChangePage(i)}
-            />
+            <Colxx xxs="12" xl="8" className="col-left">
+              {
+                this.state.items.map(product => {
+                  return (
+                    <CartListView
+                      key={product._id}
+                      product={product}
+                      isSelect={this.state.selectedItems.includes(product._id)}
+                      onCheckItem={this.onCheckItem}
+                      collect={collect}
+                    />
+                  );
+                })
+              }
+            </Colxx>
+            <Colxx xxs="12" xl="4" className="col-right">
+              <Card className="mb-2">
+                <CardBody>
+                  <CardTitle>User Details</CardTitle>
+                  <div className="container mb-5">
+                    <div className="name">Name: {this.state.buyer.name || 'Not Provided'}</div>
+                    <div className="email">Email: {this.state.buyer.email || 'Not Provided'}</div>
+                    <div className="address">Address: {this.state.buyer.address || 'Not Provided'}</div>
+                    <div className="phone">Phone: {this.state.buyer.phone || 'Not Provided'}</div>
+                  </div>
+                  {
+                    (this.state.buyer.location) ? (
+                      <Fragment>
+                        <div className="d-flex justify-content-center">
+                          <Button color="primary" onClick={()=> {this.showLocation()}}>Find on maps</Button>
+                        </div>
+                      </Fragment>
+                    ) : (' ') 
+                  }
+                </CardBody>
+              </Card>
+            </Colxx>
           </Row>
           <Separator className="mb-5" />
           <Row>

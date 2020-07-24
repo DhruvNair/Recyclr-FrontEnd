@@ -1,12 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Row } from "reactstrap";
-import { Separator} from "../../components/common/CustomBootstrap";
+import { Separator, Colxx } from "../../components/common/CustomBootstrap";
 import axios from "axios";
 
 // import { servicePath } from "../../constants/defaultValues";
 
 import CartListView from "../../containers/pages/CartListView";
-import Pagination from "../../containers/pages/Pagination";
 import PickupsPageHeading from "../../containers/pages/PickupsPageHeading";
 import AddNewModal from "../../containers/pages/AddNewModal";
 import { NotificationManager } from "../../components/common/react-notifications";
@@ -356,24 +355,21 @@ class ThumbListPages extends Component {
             categories={categories}
           />
           <Row>
-            {this.state.totalItemCount > 0 ? this.state.items.map(product => {
-              return (
-                <CartListView
-                  key={product._id}
-                  product={product}
-                  isSelect={this.state.selectedItems.includes(product._id)}
-                  onCheckItem={this.onCheckItem}
-                  collect={collect}
-                />
-              );
-            }) : <div className="no-items ml-5">
-              Your cart seems to be empty! 
-            </div> }{" "}
-            <Pagination
-              currentPage={this.state.currentPage}
-              totalPage={this.state.totalPage}
-              onChangePage={i => this.onChangePage(i)}
-            />
+            <Colxx xxs="12" xl="12" className="col-left">
+              {
+                this.state.items.map(product => {
+                  return (
+                    <CartListView
+                      key={product._id}
+                      product={product}
+                      isSelect={this.state.selectedItems.includes(product._id)}
+                      onCheckItem={this.onCheckItem}
+                      collect={collect}
+                    />
+                  );
+                })
+              }
+            </Colxx>
           </Row>
           <Separator className="mb-5" />
           <Row>
