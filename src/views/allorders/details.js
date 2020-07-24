@@ -194,12 +194,11 @@ class ThumbListPages extends Component {
     //   selectedOrderOption,
     //   search
     // } = this.state;
-    axios.get(`/partner/order?id=`+this.state.id)
+    axios.get(`/partner/order?_id=`+this.state.id)
         .then(res => {
           return res.data[0];
         })
         .then(res => {
-          console.log(res.buyer)
           this.setState({
             totalPage: 1,
             items: res.items,
