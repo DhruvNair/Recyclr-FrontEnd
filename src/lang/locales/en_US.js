@@ -61,8 +61,11 @@ module.exports = {
   "menu.partners": "Partners",
   "menu.devices": "Devices",
   "menu.parts": "Parts",
-  "menu.myorders": "My Orders",
+  "menu.myordersandpickups": "My Orders and Pickups",
+  "menu.myOrders": "My Orders",
+  "menu.myPickups": "My Pickups",
   "menu.availablePickups": "Available Pickups",
+  "menu.inventory": "Inventory",
 
  /* 04.Error Page */
  "pages.error-title": "Ooops... looks like an error occurred!",
@@ -110,6 +113,8 @@ module.exports = {
  "pages.similar-parts": "People who bought this also bought: ",
  "pages.cart": "Cart",
  "pages.selectDevice": "Select device to sell",
+ "pages.orderDetails": "Order Details",
+ "pages.allOrders": "All Orders",
 
  "buy.addToCart": "Add to Cart"
 };

@@ -1,28 +1,21 @@
 import React, { Component, Fragment } from "react";
 import { Row } from "reactstrap";
-import { Separator} from "../../components/common/CustomBootstrap";
 import axios from "axios";
 
 // import { servicePath } from "../../constants/defaultValues";
 
-import CartListView from "../../containers/pages/CartListView";
-import Pagination from "../../containers/pages/Pagination";
-import CartPageHeading from "../../containers/pages/CartPageHeading";
-import AddNewModal from "../../containers/pages/AddNewModal";
-import { NotificationManager } from "../../components/common/react-notifications";
-import './common.css';
-function collect(props) {
-  console.log(console.log(props));
-  return { data: props.data };
-}
+import AllOrdersListView from "../../containers/pages/AllOrdersListView";
+import PickupsPageHeading from "../../containers/pages/PickupsPageHeading";
+// function collect(props) {
+//   console.log(console.log(props));
+//   return { data: props.data };
+// }
 // const apiUrl = servicePath + "/cakes/paging";
 
 class ThumbListPages extends Component {
   constructor(props) {
     super(props);
     this.mouseTrap = require('mousetrap');
-    this.handleClearCart = this.handleClearCart.bind(this);
-    this.handlePlaceOrder = this.handlePlaceOrder.bind(this);
 
 
     this.state = {
@@ -46,6 +39,7 @@ class ThumbListPages extends Component {
       totalItemCount: 0,
       totalPage: 1,
       search: "",
+      pickups: [],
       selectedItems: [],
       lastChecked: null,
       isLoading: false
@@ -173,75 +167,6 @@ class ThumbListPages extends Component {
     }
     return -1;
   }
-  handleClearCart(){
-    axios
-      .delete("/shop/cart")
-      .then(() => {
-        NotificationManager.success(
-        "Cart Cleared Successfully!",
-        "Success!",
-        3000,
-        null,
-        null,
-        ''
-      )
-      this.setState({
-        items:[],
-        totalItemCount:0
-      })
-    }).catch(error => 
-      NotificationManager.warning(
-        error,
-        "Cart not Cleared",
-        3000,
-        null,
-        null,
-        ''
-      )
-    )
-  }
-  handlePlaceOrder(){
-    axios
-      .post("/payment/order")
-      .then((res) => {
-        console.log(res);
-        NotificationManager.success(
-        "Redirecting to the payment gateway",
-        "Success!",
-        3000,
-        null,
-        null,
-        ''
-      )
-      setTimeout(() => {
-        window.location.href=res.data.payment_request.longurl;
-      }, 1500)
-    }).catch(error => 
-      NotificationManager.error(
-        error.response.data.message,
-        "Could not place order",
-        3000,
-        null,
-        null,
-        ''
-      )
-    )
-  }
-  handleChangeSelectAll = isToggle => {
-    if (this.state.selectedItems.length >= this.state.items.length) {
-      if (isToggle) {
-        this.setState({
-          selectedItems: []
-        });
-      }
-    } else {
-      this.setState({
-        selectedItems: this.state.items.map(x => x._id)
-      });
-    }
-    document.activeElement.blur();
-    return false;
-  };
 
   dataListRender() {
     // const {
@@ -250,18 +175,15 @@ class ThumbListPages extends Component {
     //   selectedOrderOption,
     //   search
     // } = this.state;
-    axios.get(`/shop/cart/`)
+    axios.get(`/partner/order`)
         .then(res => {
           return res.data;
         })
         .then(res => {
-          console.log(res)
           this.setState({
             totalPage: 1,
-            items: res.cart,
-            selectedItems: [],
-            totalItemCount: res.cart.length,
-            totalCost: res.cartValue,
+            orders: res,
+            totalOrders: res.length,
             isLoading: true
           });
         });
@@ -304,6 +226,10 @@ class ThumbListPages extends Component {
     return true;
   };
 
+  myId(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    return user._id;
+  }
   render() {
     const {
       currentPage,
@@ -315,8 +241,6 @@ class ThumbListPages extends Component {
       selectedItems,
       orderOptions,
       pageSizes,
-      modalOpen,
-      categories
     } = this.state;
     const { match } = this.props;
     const startIndex = (currentPage - 1) * selectedPageSize;
@@ -326,9 +250,9 @@ class ThumbListPages extends Component {
       <div className="loading" />
     ) : (
       <Fragment>
-        <div className="disable-text-selection">
-          <CartPageHeading
-            heading="pages.cart"
+        <div className="disable-text-selection mb-5">
+          <PickupsPageHeading
+            heading="pages.allOrders"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
@@ -349,41 +273,18 @@ class ThumbListPages extends Component {
             pageSizes={pageSizes}
             toggleModal={this.toggleModal}
           />
-          <AddNewModal
-            modalOpen={modalOpen}
-            toggleModal={this.toggleModal}
-            categories={categories}
-          />
           <Row>
-            {this.state.totalItemCount > 0 ? this.state.items.map(product => {
+            {this.state.totalOrders > 0 ? this.state.orders.map(order => {
               return (
-                <CartListView
-                  key={product._id}
-                  product={product.part}
-                  isSelect={this.state.selectedItems.includes(product._id)}
-                  onCheckItem={this.onCheckItem}
-                  collect={collect}
+                <AllOrdersListView
+                  key={order._id}
+                  order={order}
                 />
               );
             }) : <div className="no-items ml-5">
-              Your cart seems to be empty! 
+              No orders available 
             </div> }{" "}
-            <Pagination
-              currentPage={this.state.currentPage}
-              totalPage={this.state.totalPage}
-              onChangePage={i => this.onChangePage(i)}
-            />
           </Row>
-          {this.state.totalCost > 0 ? (
-            <Fragment>
-              <Separator className="mb-5" />
-              <Row>
-                <div className="totalcost">
-                  Order Total: ₹{this.state.totalCost}
-                </div>
-              </Row>
-            </Fragment>
-          ) : ('')}
         </div>
       </Fragment>
     );

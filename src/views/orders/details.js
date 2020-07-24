@@ -7,7 +7,7 @@ import axios from "axios";
 
 import CartListView from "../../containers/pages/CartListView";
 import Pagination from "../../containers/pages/Pagination";
-import CartPageHeading from "../../containers/pages/CartPageHeading";
+import PickupsPageHeading from "../../containers/pages/PickupsPageHeading";
 import AddNewModal from "../../containers/pages/AddNewModal";
 import { NotificationManager } from "../../components/common/react-notifications";
 import './common.css';
@@ -48,7 +48,8 @@ class ThumbListPages extends Component {
       search: "",
       selectedItems: [],
       lastChecked: null,
-      isLoading: false
+      isLoading: false,
+      id: new URLSearchParams(this.props.location.search).get("id")
     };
   }
 
@@ -250,18 +251,18 @@ class ThumbListPages extends Component {
     //   selectedOrderOption,
     //   search
     // } = this.state;
-    axios.get(`/shop/cart/`)
+    axios.get(`/payment/order?id=`+this.state.id)
         .then(res => {
-          return res.data;
+          return res.data[0];
         })
         .then(res => {
           console.log(res)
           this.setState({
             totalPage: 1,
-            items: res.cart,
+            items: res.items,
             selectedItems: [],
-            totalItemCount: res.cart.length,
-            totalCost: res.cartValue,
+            totalItemCount: res.items.length,
+            totalCost: res.amount,
             isLoading: true
           });
         });
@@ -327,8 +328,8 @@ class ThumbListPages extends Component {
     ) : (
       <Fragment>
         <div className="disable-text-selection">
-          <CartPageHeading
-            heading="pages.cart"
+          <PickupsPageHeading
+            heading="pages.orderDetails"
             displayMode={displayMode}
             changeDisplayMode={this.changeDisplayMode}
             handleChangeSelectAll={this.handleChangeSelectAll}
@@ -359,7 +360,7 @@ class ThumbListPages extends Component {
               return (
                 <CartListView
                   key={product._id}
-                  product={product.part}
+                  product={product}
                   isSelect={this.state.selectedItems.includes(product._id)}
                   onCheckItem={this.onCheckItem}
                   collect={collect}
@@ -374,16 +375,12 @@ class ThumbListPages extends Component {
               onChangePage={i => this.onChangePage(i)}
             />
           </Row>
-          {this.state.totalCost > 0 ? (
-            <Fragment>
-              <Separator className="mb-5" />
-              <Row>
-                <div className="totalcost">
-                  Order Total: ₹{this.state.totalCost}
-                </div>
-              </Row>
-            </Fragment>
-          ) : ('')}
+          <Separator className="mb-5" />
+          <Row>
+            <div className="totalcost">
+              Order Total: ₹{this.state.totalCost}
+            </div>
+          </Row>
         </div>
       </Fragment>
     );

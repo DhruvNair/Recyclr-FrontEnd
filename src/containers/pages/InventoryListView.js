@@ -1,21 +1,15 @@
 import React from "react";
-import { Card, Badge } from "reactstrap";
+import { Card, Badge, Button, ButtonGroup } from "reactstrap";
 import { NavLink } from "react-router-dom";
 import classnames from "classnames";
-import { ContextMenuTrigger } from "react-contextmenu";
 import { Colxx } from "../../components/common/CustomBootstrap";
 import './common.css'
 
-const CartListView = ({ product, isSelect, collect, onCheckItem }) => {
-  console.log("Hello", product)
+const DataListView = ({ product, onAdd, onSubtract }) => {
   return (
     <Colxx xxs="12" className="mb-3">
-      <ContextMenuTrigger id="menu_id" data={product._id} collect={collect}>
         <Card
-          onClick={event => onCheckItem(event, product._id)}
-          className={classnames("d-flex flex-row", {
-            active: isSelect
-          })}
+          className={classnames("d-flex flex-row")}
         >
           <div className="pl-2 d-flex flex-grow-1 min-width-zero">
             <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
@@ -36,12 +30,24 @@ const CartListView = ({ product, isSelect, collect, onCheckItem }) => {
                 </Badge>
               </div>
             </div>
+            <div className="custom-control custom-checkbox pl-1 align-self-center pr-4">
+              <ButtonGroup>
+                <Button onClick={() => {onSubtract(product._id)}} color="primary">
+                  -
+                </Button>
+                <Button color="outline-primary quantity">
+                  {product.quantity}
+                </Button>
+                <Button onClick={() => {onAdd(product._id)}} color="primary">
+                  +
+                </Button>
+              </ButtonGroup>
+            </div>
           </div>
         </Card>
-      </ContextMenuTrigger>
     </Colxx>
   );
 };
 
 /* React.memo detail : https://reactjs.org/docs/react-api.html#reactpurecomponent  */
-export default React.memo(CartListView);
+export default React.memo(DataListView);

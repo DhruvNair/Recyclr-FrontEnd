@@ -51,10 +51,3 @@
     display: flex;
     justify-content: space-around;
 }
-.totalcost{
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    padding-right: 50px;
-    font-size: 25px;
-}

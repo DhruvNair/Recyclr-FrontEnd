@@ -9,3 +9,12 @@
     height: 100px;
     object-fit: cover;
 }
+.quantity:hover{
+    color: #86367e!important;
+    border-color: #86367e!important;
+    background-color: transparent;
+    cursor: default!important;
+}
+.quantity:active{
+    background-color: transparent!important;
+}

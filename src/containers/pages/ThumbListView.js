@@ -15,7 +15,7 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
             active: isSelect
           })}
         >
-          <NavLink to={`?p=${product._id}`} className="d-flex">
+          <NavLink to={`/buy/product?id=${product._id}`} className="d-flex">
             <img
               alt={product.name}
               src={product.photo || 'https://www.oyorooms.com/officialoyoblog/wp-content/themes/inframe/assets/images/no-thumbnail-medium.png'}
@@ -24,7 +24,7 @@ const ThumbListView = ({ product, isSelect, collect, onCheckItem }) => {
           </NavLink>
           <div className="pl-2 d-flex flex-grow-1 min-width-zero">
             <div className="card-body align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero align-items-lg-center">
-              <NavLink to={`?p=${product._id}`} className="w-40 w-sm-100">
+              <NavLink to={`/buy/product?id=${product._id}`} className="w-40 w-sm-100">
                 <p className="list-item-heading mb-1 truncate">
                   {product.name}
                 </p>

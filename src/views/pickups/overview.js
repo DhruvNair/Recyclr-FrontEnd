@@ -8,11 +8,10 @@ import PickupsListView from "../../containers/pages/PickupsListView";
 import Pagination from "../../containers/pages/Pagination";
 import PickupsPageHeading from "../../containers/pages/PickupsPageHeading";
 import AddNewModal from "../../containers/pages/AddNewModal";
-import { NotificationManager } from "../../components/common/react-notifications";
-function collect(props) {
-  console.log(console.log(props));
-  return { data: props.data };
-}
+// function collect(props) {
+//   console.log(console.log(props));
+//   return { data: props.data };
+// }
 // const apiUrl = servicePath + "/cakes/paging";
 
 class ThumbListPages extends Component {
@@ -182,7 +181,6 @@ class ThumbListPages extends Component {
           return res.data;
         })
         .then(res => {
-          console.log(res)
           this.setState({
             totalPage: 1,
             items: res,
@@ -233,7 +231,6 @@ class ThumbListPages extends Component {
 
   myId(){
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
     return user._id;
   }
   render() {
@@ -288,7 +285,7 @@ class ThumbListPages extends Component {
           />
           <Row>
             {this.state.totalItemCount > 0 ? this.state.items.map(pickup => {
-              if(!pickup.shop || pickup.shop === this.myId()){
+              if((!pickup.shop || pickup.shop === this.myId()) && pickup.seller._id !== this.myId()){
                 return (
                   <PickupsListView
                     key={pickup._id}

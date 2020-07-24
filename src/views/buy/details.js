@@ -72,7 +72,7 @@ class ProductDetails extends Component {
   }
   addToCart(id) {
     axios
-      .post("http://localhost:3000/shop/cart", {partId: id})
+      .post("/shop/cart", {partId: id})
       .then(() => {
         NotificationManager.success(
           "Added to cart!",

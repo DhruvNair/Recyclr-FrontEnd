@@ -39,6 +39,15 @@ const CartView = React.lazy(() =>
 const PickupsView = React.lazy(() =>
   import(/* webpackChunkName: "views-user" */ './views/pickups')
 );
+const OrdersView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/orders')
+);
+const AllOrdersView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/allorders')
+);
+const InventoryView = React.lazy(() =>
+  import(/* webpackChunkName: "views-user" */ './views/inventory')
+);
 const ViewError = React.lazy(() =>
   import(/* webpackChunkName: "views-error" */ './views/error')
 );
@@ -219,7 +228,28 @@ class App extends Component {
                     authUser={loginUser}
                     component={CartView}
                   />
+                  <AuthRoute
+                    path="/orders"
+                    authUser={loginUser}
+                    component={OrdersView}
+                  />
                   <PartnerRoute
+                    exact
+                    path="/pickups"
+                    authUser={loginUser}
+                    component={PickupsView}
+                  />
+                  <PartnerRoute
+                    path="/allOrders"
+                    authUser={loginUser}
+                    component={AllOrdersView}
+                  />
+                  <PartnerRoute
+                    path="/inventory"
+                    authUser={loginUser}
+                    component={InventoryView}
+                  />
+                  <AuthRoute
                     path="/pickups"
                     authUser={loginUser}
                     component={PickupsView}

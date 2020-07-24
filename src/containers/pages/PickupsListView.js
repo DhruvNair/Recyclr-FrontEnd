@@ -7,7 +7,6 @@ import { Colxx } from "../../components/common/CustomBootstrap";
 import './common.css';
 
 let getColor = status => {
-  console.log(status)
   if (status === 'Rejected') {return 'danger'}
   else{
     if(status === 'Accepted') {return 'success'}

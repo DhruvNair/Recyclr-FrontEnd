@@ -80,7 +80,6 @@ class PickupDetails extends Component {
   }
   myId(){
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
     return user._id;
   }
   getEstimate(){
@@ -260,9 +259,11 @@ class PickupDetails extends Component {
                       <h3>Given estimate : {this.state.estimate !== 'Not calculated' ? '₹' : ''}{this.state.estimate}</h3>
                     </div>
                     {!this.state.pickup.shop ? (
-                      <div className="actionButtons">
-                        <Button color="secondary" onClick={()=> {this.claim()}}>Claim</Button>
-                      </div>
+                      this.state.pickup.seller._id !== this.myId() ? (
+                        <div className="actionButtons">
+                          <Button color="secondary" onClick={()=> {this.claim()}}>Claim</Button>
+                        </div>
+                      ) : ('')
                     ) : (
                       (this.state.pickup.shop === this.myId() && this.state.pickup.status === 'processing') ? (
                         <div className="actionButtons">
